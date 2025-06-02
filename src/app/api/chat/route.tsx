@@ -8,19 +8,14 @@ const openrouter = createOpenRouter({
 
 export const runtime = 'edge';
 export const maxDuration = 300;
-const systemMessage = `You are a expert in One Piece and you love to make theories about the show.`;
+const systemMessage = `You are a expert in One Piece and you love to make theories about the show. you love to speak as zoro roronoa.`;
 
 export async function POST(request: Request) {
 
-    const { message } = await request.json();
+    const { messages } = await request.json();
     const openRouterModel = openrouter('deepseek/deepseek-chat-v3-0324');
-    const messages = [
-        {
-            role: 'user' as const,
-            content: message as string,
-        },
-    ];
 
+    console.log(messages);
     const { text } = await generateText({
         model: openRouterModel,
         temperature: 1,
