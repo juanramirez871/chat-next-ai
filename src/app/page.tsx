@@ -1,8 +1,18 @@
+"use client"
+
 import Image from "next/image";
+import { FormEvent, useState } from "react";
 
 export default function Home() {
-  return (
 
+  const [input, setInput] = useState("");
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(input);
+  }
+
+
+  return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="w-lg border-[0.5px] rounded border-gray-800 p-5 h-[600px] max-h-[600px] overflow-y-auto flex flex-col space-y-2">
         <div className="chat chat-start">
@@ -39,12 +49,14 @@ export default function Home() {
         </div>
       </div>
       <div className="w-lg">
-        <form className="flex w-full flex-col space-y-2">
+        <form onSubmit={handleSubmit} className="flex w-full flex-col space-y-2">
           <textarea
             className="textarea textarea-bordered w-full focus:outline-none focus:border-none"
             cols={30}
             rows={10}
             placeholder="type your message here..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           ></textarea>
           <button className="btn btn-primary" type="submit" >Send</button>
         </form>
