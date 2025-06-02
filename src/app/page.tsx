@@ -1,39 +1,10 @@
 "use client"
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { useChat } from "ai/react";
 
 export default function Home() {
-
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-
-    e.preventDefault();
-    const newMessage = {
-      role: "user",
-      content: input,
-    };
-    const updatedMessages = [...messages, newMessage];
-
-    setMessages((prev) => [...prev || [], newMessage]);
-    setInput("");
-    await setMessagesToApi(updatedMessages);
-  }
-
-  const setMessagesToApi = async (updatedMessages: { role: string, content: string }[]) => {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ messages: updatedMessages }),
-    });
-
-    const data = await response.json();
-    setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
-  }
-
+  const { messages, input, setInput, handleInputChange, handleSubmit } = useChat();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -75,7 +46,7 @@ export default function Home() {
             rows={10}
             placeholder="type your message here..."
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange ?? ((e) => setInput(e.target.value))}
           ></textarea>
           <button className="btn btn-primary" type="submit">
             Send

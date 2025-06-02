@@ -1,5 +1,5 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { generateText } from 'ai';
+import { streamText } from 'ai';
 import { NextResponse } from 'next/server';
 
 const openrouter = createOpenRouter({
@@ -15,15 +15,12 @@ export async function POST(request: Request) {
     const { messages } = await request.json();
     const openRouterModel = openrouter('deepseek/deepseek-chat-v3-0324');
 
-    console.log(messages);
-    const { text } = await generateText({
+    const result = await streamText({
         model: openRouterModel,
         temperature: 1,
         messages,
         system: systemMessage,
     });
 
-    return NextResponse.json({
-        message: text
-    });
+    return result.toDataStreamResponse()
 }
