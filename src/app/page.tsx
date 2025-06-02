@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="w-lg border-[0.5px] rounded border-gray-800 p-5 h-[600px] max-h-[600px] overflow-y-auto flex flex-col space-y-2">
+      <div className="w-lg border-[0.5px] rounded border-gray-800 p-5 h-[550px] max-h-[550px] overflow-y-auto flex flex-col space-y-2">
         {messages.map((msg, idx) => (
           <div
             key={idx}
